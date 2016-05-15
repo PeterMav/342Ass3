@@ -25,16 +25,16 @@ class SatelliteViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        retrieveData("2013-09-19"){ result, dataRetrieved in
+        performNASARequest("2015-09-19"){ result, dataRetrieved in
             if result{
-                self.getImage(dataRetrieved!)
+                self.fetchImage(dataRetrieved!)
             } else {
                 print("Nothing to retrieve")
             }
         }
     }
     
-    func getImage(location: mapInfo){
+    func fetchImage(location: mapInfo){
         if let url = NSURL(string: location.mapURL){
             let ns = NSURLSession.sharedSession()
             ns.dataTaskWithURL(url, completionHandler: {(data, response, error) in
@@ -50,13 +50,13 @@ class SatelliteViewController: UIViewController {
         }
     }
     
-    func retrieveData(date: String, completion: (result: Bool, data:mapInfo?) -> ()){
+    func performNASARequest(date: String, completion: (result: Bool, data:mapInfo?) -> ()){
         let keys: Dictionary = [
-            "api_key"	:	api_key,
-            "lat"		:	lat,
-            "lon"		:	lon,
-            "date"		:	date,
-            "cloud_score":	"True"
+            "api_key" : api_key,
+            "lat" : lat,
+            "lon" : lon,
+            "date" : date,
+            "cloud_score": "True"
         ]
         
         let urlComp = NSURLComponents(string: apiURL)!
@@ -72,9 +72,9 @@ class SatelliteViewController: UIViewController {
         let request = NSMutableURLRequest(URL: url)
         request.HTTPMethod = "GET"
         
-        let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
+        let ns = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
         
-        session.dataTaskWithRequest(request) { (data, response, error) -> Void in
+        ns.dataTaskWithRequest(request) { (data, response, error) -> Void in
             if let response = response as? NSHTTPURLResponse where 200...299 ~= response.statusCode {
                 do{
                     let JSON = try NSJSONSerialization.JSONObjectWithData(data!, options:NSJSONReadingOptions.AllowFragments )
@@ -89,12 +89,10 @@ class SatelliteViewController: UIViewController {
                         
                     }
                 } catch {
-                    print("Nothing found")
+                    print("Timed out")
                     completion(result: false, data: nil)
                  }
             }
         }.resume()
     }
-   
-    
 }
