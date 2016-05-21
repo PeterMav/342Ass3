@@ -17,11 +17,12 @@ class SatelliteViewController: UIViewController {
     let baseURL:String = "https://api.nasa.gov/planetary/earth/imagery"
     let lat:String = "-34.424984"
     let lon:String = "150.8931239"
-    let date:String = "2000-09-19"
+    let date:String = "2014-08-19"
+    let cache = NSCache()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
         performNASARequest(lat, lon: lon, date: date)
     }
     
@@ -51,19 +52,26 @@ class SatelliteViewController: UIViewController {
             
             let httpResponse = response as! NSHTTPURLResponse
             let statusCode = httpResponse.statusCode
-            
+//            print(statusCode)
+            // Status code of 200 returns OK
             if (statusCode == 200) {
-                
                 do{
-                    let json = try NSJSONSerialization.JSONObjectWithData(data!, options:.AllowFragments)
+                    let json = try NSJSONSerialization.JSONObjectWithData(data!, options:NSJSONReadingOptions.AllowFragments)
+                    if let result = json as? NSDictionary {
+//                        print(result)
+                        let mapURL = result["url"] as? String
+                        let mapDate = result["date"] as? String
+                        self.fetchImage(mapURL!, mapDate: mapDate!)
+                    }else {
+                        print("The world in no more!")
+                    }
                     
-                    let mapURL = json["url"] as! String
-                    let mapDate = json["date"] as! String
-                    self.fetchImage(mapURL, mapDate: mapDate)
                     
                 }catch {
                     fatalError("Error with Json: \(error)")
                 }
+            }else {
+                print("Response Code: \((response as? NSHTTPURLResponse)!.statusCode)")
             }
         }
         task.resume()
@@ -71,8 +79,18 @@ class SatelliteViewController: UIViewController {
     }
     
     func fetchImage(mapURL: String, mapDate: String){
-        print(mapURL)
-        print(mapDate)
+//        print(mapURL)
+//        print(mapDate)
+        var loadImage = self.cache.objectForKey(mapURL) as? NSData
+        if loadImage == nil {
+            let data = NSData(contentsOfURL: NSURL(string: mapURL)!)
+            self.cache.setObject(data!, forKey: mapURL)
+            loadImage = self.cache.objectForKey(mapURL) as? NSData
+        }
         
+        dispatch_async(dispatch_get_main_queue(), {
+            self.dateLabel.text = mapDate
+            self.mapImage.image = UIImage(data: loadImage!)
+            })
     }
 }
