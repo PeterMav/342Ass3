@@ -8,6 +8,13 @@
 
 import Foundation
 import UIKit
+
+struct retrievedData {
+
+    let rImage: UIImage
+    let rDate: String
+}
+
 class SatelliteViewController: UIViewController {
     
     @IBOutlet weak var mapImage: UIImageView!
@@ -17,33 +24,71 @@ class SatelliteViewController: UIViewController {
     let baseURL:String = "https://api.nasa.gov/planetary/earth/imagery"
     let lat:String = "-34.424984"
     let lon:String = "150.8931239"
-    let date:String = "2014-08-19"
+    
     let cache = NSCache()
+    let SEQUENCE = 5
+    var timer = NSTimer()
+    var index = 0
+    var loading = UIActivityIndicatorView()
+   
+    
+    
+    var imageSequence = [retrievedData]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // Spinning gear indicating load happening.
+        loading.center = self.view.center
+        loading.hidesWhenStopped = true
+        loading.activityIndicatorViewStyle = .Gray
+        loading.color = UIColor.blackColor()
+        view.addSubview(loading)
+
+        performNASARequestSequence()
         
-        performNASARequest(lat, lon: lon, date: date)
+        
+        
     }
     
+    func performNASARequestSequence(){
+        // Getting the current date to access the month for the sequence.
+        let currentDate = NSDate()
+        let currentCalendar = NSCalendar.currentCalendar()
+        let dateComponents = currentCalendar.components([.Day, .Month, .Year], fromDate: currentDate)
+        var year = dateComponents.year
+        var month = dateComponents.month
+        let day = dateComponents.day
+        var date = String(year) + "-" + String(month) + "-" + String(day)
+        date = String(year) + "-" + String(month) + "-" + String(day)
+
+        for _ in 0..<SEQUENCE {
+            if month > 0 {
+                performNASARequest(date)
+                month -= 1
+                date = String(year) + "-" + String(month) + "-" + String(day)
+            }else {
+                month = 12
+                year -= 1
+                date = String(year) + "-" + String(month) + "-" + String(day)
+                performNASARequest(date)
+                month -= 1
+                date = String(year) + "-" + String(month) + "-" + String(day)
+            }
+        }
+    }
     
-    
-    func performNASARequest(lat: String, lon: String, date: String){
+    func performNASARequest(date: String){
         
         let urlComp = NSURLComponents(string: baseURL)
-        let urlLongitude = NSURLQueryItem(name: "lon", value: String(self.lon))
-        let urlLatitude = NSURLQueryItem(name: "lat", value: String(self.lat))
+        let urlLongitude = NSURLQueryItem(name: "lon", value: self.lon)
+        let urlLatitude = NSURLQueryItem(name: "lat", value: self.lat)
         let api = NSURLQueryItem(name: "api_key", value: self.api_key)
-        let urlDate = NSURLQueryItem(name: "date", value: self.date)
+        let urlDate = NSURLQueryItem(name: "date", value: date)
         urlComp!.queryItems = [urlLongitude, urlLatitude, api, urlDate]
-        
-//        print(lat)
-//        print(lon)
-//        print(date)
-//        print(urlLatitude)
-//        print(urlLongitude)
-//        print(urlDate)
-//        print(urlComp!)
+     
+
+        self.loading.startAnimating()
+        self.dateLabel.text = "Loading, Please wait..."
         let urlRequest = NSMutableURLRequest(URL: urlComp!.URL!)
         let ss = NSURLSession.sharedSession()
         
@@ -79,18 +124,28 @@ class SatelliteViewController: UIViewController {
     }
     
     func fetchImage(mapURL: String, mapDate: String){
-//        print(mapURL)
-//        print(mapDate)
-        var loadImage = self.cache.objectForKey(mapURL) as? NSData
-        if loadImage == nil {
-            let data = NSData(contentsOfURL: NSURL(string: mapURL)!)
-            self.cache.setObject(data!, forKey: mapURL)
-            loadImage = self.cache.objectForKey(mapURL) as? NSData
+        let data = NSData(contentsOfURL: NSURL(string: mapURL)!)
+        let tmp = retrievedData(rImage: UIImage(data: data!)!, rDate: mapDate)
+        self.imageSequence.append(tmp)
+        dispatch_async(dispatch_get_main_queue()){
+            self.timer = NSTimer.scheduledTimerWithTimeInterval(10, target: self, selector: (#selector(SatelliteViewController.loadImages)), userInfo: nil, repeats: true)
         }
-        
-        dispatch_async(dispatch_get_main_queue(), {
-            self.dateLabel.text = mapDate
-            self.mapImage.image = UIImage(data: loadImage!)
-            })
     }
+    
+    
+    func loadImages() {
+        
+        self.mapImage.image = self.imageSequence[self.index].rImage
+        self.dateLabel.text = self.imageSequence[self.index].rDate
+        self.index += 1
+        if self.index == 4 {
+            self.index = 0
+        }
+       
+        
+        
+    }
+    
+    
+    
 }
