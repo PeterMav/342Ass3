@@ -6,7 +6,7 @@
 //  Copyright © 2016 Peter Mavridis. All rights reserved.
 //
 
-import Foundation
+
 import UIKit
 
 struct retrievedData {
@@ -43,7 +43,7 @@ class SatelliteViewController: UIViewController {
         loading.activityIndicatorViewStyle = .Gray
         loading.color = UIColor.blackColor()
         view.addSubview(loading)
-
+        
         performNASARequestSequence()
     }
     
@@ -142,7 +142,4 @@ class SatelliteViewController: UIViewController {
         
         
     }
-    
-    
-    
 }

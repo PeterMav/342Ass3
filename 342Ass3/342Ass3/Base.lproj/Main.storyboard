@@ -17,6 +17,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="XaS-hU-uD7">
+                                <rect key="frame" x="20" y="0.0" width="560" height="558"/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="dwO-wI-aF3" appends="YES" id="e47-zG-EYe"/>
+                                </connections>
+                            </mapView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rl2-SK-YPg">
                                 <rect key="frame" x="28" y="558" width="544" height="30"/>
                                 <state key="normal" title="Satellite Images"/>
@@ -24,22 +30,16 @@
                                     <segue destination="sTs-7B-Rx1" kind="show" identifier="showHistory" id="rlI-UD-qPF"/>
                                 </connections>
                             </button>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="XaS-hU-uD7">
-                                <rect key="frame" x="28" y="72" width="544" height="478"/>
-                                <connections>
-                                    <outletCollection property="gestureRecognizers" destination="dwO-wI-aF3" appends="YES" id="e47-zG-EYe"/>
-                                </connections>
-                            </mapView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="vi4-zS-7tc" firstAttribute="top" secondItem="Rl2-SK-YPg" secondAttribute="bottom" constant="12" id="1Xn-cF-uXS"/>
-                            <constraint firstItem="XaS-hU-uD7" firstAttribute="top" secondItem="iTX-U0-a4W" secondAttribute="bottom" constant="8" id="3Lt-wa-3Gd"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="XaS-hU-uD7" secondAttribute="trailing" constant="8" id="6XG-bg-5gY"/>
+                            <constraint firstItem="XaS-hU-uD7" firstAttribute="leading" secondItem="tKy-YD-r7F" secondAttribute="leadingMargin" id="Bgk-F8-C3a"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Rl2-SK-YPg" secondAttribute="trailing" constant="8" id="HXY-Xs-QWa"/>
-                            <constraint firstItem="XaS-hU-uD7" firstAttribute="leading" secondItem="tKy-YD-r7F" secondAttribute="leadingMargin" constant="8" id="Mph-V2-YDS"/>
+                            <constraint firstItem="Rl2-SK-YPg" firstAttribute="top" secondItem="XaS-hU-uD7" secondAttribute="bottom" id="dkC-m1-DNe"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="XaS-hU-uD7" secondAttribute="trailing" id="hPV-K8-pxZ"/>
+                            <constraint firstItem="XaS-hU-uD7" firstAttribute="top" secondItem="tKy-YD-r7F" secondAttribute="topMargin" id="hTR-Tp-ufX"/>
                             <constraint firstItem="Rl2-SK-YPg" firstAttribute="leading" secondItem="tKy-YD-r7F" secondAttribute="leadingMargin" constant="8" id="hXd-9Y-HzG"/>
-                            <constraint firstItem="Rl2-SK-YPg" firstAttribute="top" secondItem="XaS-hU-uD7" secondAttribute="bottom" constant="8" id="ieC-oS-NoK"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Map" id="9U1-rc-Rzb"/>
@@ -111,7 +111,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="zJw-fK-lru" kind="show" identifier="showMap" id="D5L-ov-ivL"/>
+                        <segue destination="zJw-fK-lru" kind="relationship" relationship="rootViewController" id="gQs-VD-dRq"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qk5-85-zQi" userLabel="First Responder" sceneMemberID="firstResponder"/>
