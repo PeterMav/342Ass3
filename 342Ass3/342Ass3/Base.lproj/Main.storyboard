@@ -5,6 +5,58 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
+        <!--Map-->
+        <scene sceneID="KxS-FC-IeN">
+            <objects>
+                <viewController id="zJw-fK-lru" customClass="MapViewController" customModule="_42Ass3" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="iTX-U0-a4W"/>
+                        <viewControllerLayoutGuide type="bottom" id="vi4-zS-7tc"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="tKy-YD-r7F">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rl2-SK-YPg">
+                                <rect key="frame" x="28" y="558" width="544" height="30"/>
+                                <state key="normal" title="Satellite Images"/>
+                                <connections>
+                                    <segue destination="sTs-7B-Rx1" kind="show" identifier="showHistory" id="rlI-UD-qPF"/>
+                                </connections>
+                            </button>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="XaS-hU-uD7">
+                                <rect key="frame" x="28" y="72" width="544" height="478"/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="dwO-wI-aF3" appends="YES" id="e47-zG-EYe"/>
+                                </connections>
+                            </mapView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="vi4-zS-7tc" firstAttribute="top" secondItem="Rl2-SK-YPg" secondAttribute="bottom" constant="12" id="1Xn-cF-uXS"/>
+                            <constraint firstItem="XaS-hU-uD7" firstAttribute="top" secondItem="iTX-U0-a4W" secondAttribute="bottom" constant="8" id="3Lt-wa-3Gd"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="XaS-hU-uD7" secondAttribute="trailing" constant="8" id="6XG-bg-5gY"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Rl2-SK-YPg" secondAttribute="trailing" constant="8" id="HXY-Xs-QWa"/>
+                            <constraint firstItem="XaS-hU-uD7" firstAttribute="leading" secondItem="tKy-YD-r7F" secondAttribute="leadingMargin" constant="8" id="Mph-V2-YDS"/>
+                            <constraint firstItem="Rl2-SK-YPg" firstAttribute="leading" secondItem="tKy-YD-r7F" secondAttribute="leadingMargin" constant="8" id="hXd-9Y-HzG"/>
+                            <constraint firstItem="Rl2-SK-YPg" firstAttribute="top" secondItem="XaS-hU-uD7" secondAttribute="bottom" constant="8" id="ieC-oS-NoK"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Map" id="9U1-rc-Rzb"/>
+                    <connections>
+                        <outlet property="historyButton" destination="Rl2-SK-YPg" id="CLE-fT-Lkc"/>
+                        <outlet property="mapImage" destination="XaS-hU-uD7" id="rhw-Rd-qtb"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="i90-IC-1fO" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="dwO-wI-aF3">
+                    <connections>
+                        <action selector="longPressed:" destination="zJw-fK-lru" id="j2f-um-uGK"/>
+                    </connections>
+                </pongPressGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="-627" y="362"/>
+        </scene>
         <!--Historical Images-->
         <scene sceneID="iNX-hs-zxs">
             <objects>
@@ -48,7 +100,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HAz-L5-Ylf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-698" y="362"/>
+            <point key="canvasLocation" x="66" y="362"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="66Q-vn-fdg">
@@ -59,7 +111,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="sTs-7B-Rx1" kind="relationship" relationship="rootViewController" id="XcB-ZW-Z5c"/>
+                        <segue destination="zJw-fK-lru" kind="show" identifier="showMap" id="D5L-ov-ivL"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qk5-85-zQi" userLabel="First Responder" sceneMemberID="firstResponder"/>

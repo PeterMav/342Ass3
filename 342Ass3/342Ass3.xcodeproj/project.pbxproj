@@ -14,6 +14,8 @@
 		D021F8731CE88DBF00A159AD /* _42Ass3Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D021F8721CE88DBF00A159AD /* _42Ass3Tests.swift */; };
 		D021F87E1CE88DBF00A159AD /* _42Ass3UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D021F87D1CE88DBF00A159AD /* _42Ass3UITests.swift */; };
 		D021F88C1CE88F7200A159AD /* SatelliteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D021F88B1CE88F7200A159AD /* SatelliteViewController.swift */; };
+		D054FE041CF1F33D004C1758 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D054FE031CF1F33D004C1758 /* MapViewController.swift */; };
+		D054FE061CF1F719004C1758 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D054FE051CF1F719004C1758 /* MapKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +49,8 @@
 		D021F87D1CE88DBF00A159AD /* _42Ass3UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _42Ass3UITests.swift; sourceTree = "<group>"; };
 		D021F87F1CE88DBF00A159AD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D021F88B1CE88F7200A159AD /* SatelliteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SatelliteViewController.swift; sourceTree = "<group>"; };
+		D054FE031CF1F33D004C1758 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		D054FE051CF1F719004C1758 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +58,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D054FE061CF1F719004C1758 /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,6 +82,7 @@
 		D021F8511CE88DBE00A159AD = {
 			isa = PBXGroup;
 			children = (
+				D054FE051CF1F719004C1758 /* MapKit.framework */,
 				D021F85C1CE88DBF00A159AD /* 342Ass3 */,
 				D021F8711CE88DBF00A159AD /* 342Ass3Tests */,
 				D021F87C1CE88DBF00A159AD /* 342Ass3UITests */,
@@ -99,6 +105,7 @@
 			children = (
 				D021F85D1CE88DBF00A159AD /* AppDelegate.swift */,
 				D021F88B1CE88F7200A159AD /* SatelliteViewController.swift */,
+				D054FE031CF1F33D004C1758 /* MapViewController.swift */,
 				D021F8611CE88DBF00A159AD /* Main.storyboard */,
 				D021F8641CE88DBF00A159AD /* Assets.xcassets */,
 				D021F8661CE88DBF00A159AD /* LaunchScreen.storyboard */,
@@ -257,6 +264,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D021F85E1CE88DBF00A159AD /* AppDelegate.swift in Sources */,
+				D054FE041CF1F33D004C1758 /* MapViewController.swift in Sources */,
 				D021F88C1CE88F7200A159AD /* SatelliteViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

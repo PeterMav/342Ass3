@@ -22,8 +22,8 @@ class SatelliteViewController: UIViewController {
     
     let api_key:String = "kDL3uN6O7Dfe1pdladM4OYlIGcwe2J6e4rnUoC5F"
     let baseURL:String = "https://api.nasa.gov/planetary/earth/imagery"
-    let lat:String = "-34.424984"
-    let lon:String = "150.8931239"
+    var lat:String = ""
+    var lon:String = ""
     
     let cache = NSCache()
     let SEQUENCE = 5
@@ -45,9 +45,6 @@ class SatelliteViewController: UIViewController {
         view.addSubview(loading)
 
         performNASARequestSequence()
-        
-        
-        
     }
     
     func performNASARequestSequence(){
@@ -134,7 +131,7 @@ class SatelliteViewController: UIViewController {
     
     
     func loadImages() {
-        
+        self.loading.stopAnimating()
         self.mapImage.image = self.imageSequence[self.index].rImage
         self.dateLabel.text = self.imageSequence[self.index].rDate
         self.index += 1
