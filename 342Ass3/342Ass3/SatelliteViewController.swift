@@ -135,8 +135,10 @@ class SatelliteViewController: UIViewController {
         self.mapImage.image = self.imageSequence[self.index].rImage
         self.dateLabel.text = self.imageSequence[self.index].rDate
         self.index += 1
+        print(index)
         if self.index == 4 {
             self.index = 0
+            print(index)
         }
        
         
