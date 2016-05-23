@@ -42,8 +42,15 @@
                             <constraint firstItem="Rl2-SK-YPg" firstAttribute="leading" secondItem="tKy-YD-r7F" secondAttribute="leadingMargin" constant="8" id="hXd-9Y-HzG"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Map" id="9U1-rc-Rzb"/>
+                    <navigationItem key="navigationItem" title="Map" id="9U1-rc-Rzb">
+                        <barButtonItem key="rightBarButtonItem" title="Item" id="yDh-xx-XpP">
+                            <connections>
+                                <action selector="changeMap:" destination="zJw-fK-lru" id="DjD-i2-StC"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
+                        <outlet property="changeMapButton" destination="yDh-xx-XpP" id="owc-Ga-DEz"/>
                         <outlet property="historyButton" destination="Rl2-SK-YPg" id="CLE-fT-Lkc"/>
                         <outlet property="mapImage" destination="XaS-hU-uD7" id="rhw-Rd-qtb"/>
                     </connections>

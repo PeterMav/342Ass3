@@ -17,15 +17,18 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     @IBOutlet weak var mapImage: MKMapView!
     @IBOutlet weak var historyButton: UIButton!
     
+    @IBOutlet weak var changeMapButton: UIBarButtonItem!
+    
+    
     var selectedLatitude: String = ""
     var selectedLongitude: String = ""
     let newAnotation = MKPointAnnotation()
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        
+        self.changeMapButton.title = "Standard View"
         locationManager = CLLocationManager()
-//        locationManager?.requestWhenInUseAuthorization()
+        // Get current location and show on map.
         if CLLocationManager.locationServicesEnabled() {
             locationManager!.delegate = self
             locationManager!.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
@@ -37,7 +40,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         mapImage.showsUserLocation = true
         historyButton.alpha = 0
         mapImage.mapType = MKMapType.Satellite
-//        zoomIn()
     }
    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -51,6 +53,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         
     }
     
+    // Zoom into current location
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let location = locations.last! as CLLocation
         
@@ -58,6 +61,17 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
         
         self.mapImage.setRegion(region, animated: true)
+    }
+    
+    // Changes from satellite view to standard view.
+    @IBAction func changeMap(sender: AnyObject) {
+        if mapImage.mapType == MKMapType.Satellite {
+            mapImage.mapType = MKMapType.Standard
+            self.changeMapButton.title = "Satellite View"
+        }else{
+            mapImage.mapType = MKMapType.Satellite
+            self.changeMapButton.title = "Standard View"
+        }
     }
     
     @IBAction func longPressed(gestureRecognizer: UILongPressGestureRecognizer) {
@@ -73,15 +87,4 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         historyButton.alpha = 1
         
     }
-    
-//    func zoomIn(){
-//        let userLocation = self.mapImage.userLocation
-////
-////        let region = MKCoordinateRegionMakeWithDistance(userLocation.location!.coordinate, 2000, 2000)
-////        
-////        self.mapImage.setRegion(region, animated: true)
-//        let region = MKCoordinateRegionMakeWithDistance(userLocation, 20, 20)
-//    }
-    
-    
 }
