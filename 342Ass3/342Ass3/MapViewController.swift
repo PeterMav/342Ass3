@@ -42,6 +42,12 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         mapImage.mapType = MKMapType.Satellite
     }
    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        self.mapImage.removeAnnotation(newAnotation)
+        historyButton.alpha = 0
+    }
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         if segue.identifier == "showHistory" {
@@ -49,17 +55,15 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             vc.lat = self.selectedLatitude
             vc.lon = self.selectedLongitude
         }
-        self.mapImage.removeAnnotation(newAnotation)
+        
         
     }
     
     // Zoom into current location
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let location = locations.last! as CLLocation
-        
         let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
         let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
-        
         self.mapImage.setRegion(region, animated: true)
     }
     
@@ -73,6 +77,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             self.changeMapButton.title = "Standard View"
         }
     }
+    
+    
     
     @IBAction func longPressed(gestureRecognizer: UILongPressGestureRecognizer) {
         let touchPoint = gestureRecognizer.locationInView(self.mapImage)

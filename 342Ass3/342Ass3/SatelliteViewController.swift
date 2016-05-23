@@ -30,7 +30,7 @@ class SatelliteViewController: UIViewController {
     var timer = NSTimer()
     var index = 0
     var loading = UIActivityIndicatorView()
-   
+    var count = 0
     
     
     var imageSequence = [retrievedData]()
@@ -45,6 +45,12 @@ class SatelliteViewController: UIViewController {
         view.addSubview(loading)
         
         performNASARequestSequence()
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.timer.invalidate()
+        imageSequence.removeAll()
     }
     
     func performNASARequestSequence(){
@@ -124,9 +130,13 @@ class SatelliteViewController: UIViewController {
         let data = NSData(contentsOfURL: NSURL(string: mapURL)!)
         let tmp = retrievedData(rImage: UIImage(data: data!)!, rDate: mapDate)
         self.imageSequence.append(tmp)
-        dispatch_async(dispatch_get_main_queue()){
-            self.timer = NSTimer.scheduledTimerWithTimeInterval(10, target: self, selector: (#selector(SatelliteViewController.loadImages)), userInfo: nil, repeats: true)
+        self.count += 1
+        if count == SEQUENCE {
+            dispatch_async(dispatch_get_main_queue()){
+                self.timer = NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: (#selector(SatelliteViewController.loadImages)), userInfo: nil, repeats: true)
+            }
         }
+        
     }
     
     
@@ -135,10 +145,8 @@ class SatelliteViewController: UIViewController {
         self.mapImage.image = self.imageSequence[self.index].rImage
         self.dateLabel.text = self.imageSequence[self.index].rDate
         self.index += 1
-        print(index)
         if self.index == 4 {
             self.index = 0
-            print(index)
         }
        
         
