@@ -19,7 +19,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     @IBOutlet weak var changeMapButton: UIBarButtonItem!
     
-    
+    var firstLaunch = 0
     var selectedLatitude: String = ""
     var selectedLongitude: String = ""
     let newAnotation = MKPointAnnotation()
@@ -35,9 +35,13 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             locationManager!.startUpdatingLocation()
         }else {
             locationManager?.requestWhenInUseAuthorization()
+            locationManager!.delegate = self
+            locationManager!.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            locationManager!.startUpdatingLocation()
         }
         mapImage.delegate = self
         mapImage.showsUserLocation = true
+        
         historyButton.alpha = 0
         mapImage.mapType = MKMapType.Satellite
     }
@@ -61,12 +65,16 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     // Zoom into current location
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        let location = locations.last! as CLLocation
-        let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
-        let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
-        self.mapImage.setRegion(region, animated: true)
+        // Allows user to then scroll around the map.
+        if firstLaunch == 0 {
+            let location = locations.last! as CLLocation
+            let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+            let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
+            self.mapImage.setRegion(region, animated: true)
+            firstLaunch += 1
+        }
     }
-    
+ 
     // Changes from satellite view to standard view.
     @IBAction func changeMap(sender: AnyObject) {
         if mapImage.mapType == MKMapType.Satellite {
